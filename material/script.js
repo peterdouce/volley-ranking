@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", function() {
         teamPicture: document.getElementById('teamPicture'),
         ranking: document.getElementById('ranking'),
         gamesThisWeekHeading: document.getElementById('gamesThisWeekHeading'),
-        gamesBody: document.getElementById('gamesBody')
+        gamesBody: document.getElementById('gamesBody'),
+        gamesNone: document.getElementById('gamesNone')
     };
 
     function fetchDataAndRender() {
@@ -54,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
             if (team.showRanking) {
                 const rankingHTML = generateRankingHTML(team.ranking);
                 elements.ranking.innerHTML = `
-                    <h3>Ranking:</h3>
                     <table>
                         <thead>
                             <tr>
@@ -87,11 +87,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function renderGamesThisWeek(team) {
             const gamesThisWeek = team.gamesThisWeek;
-            if (gamesThisWeek.length > 0) {
-                elements.gamesThisWeekHeading.textContent = gamesThisWeek.length === 1 ? 'Wedstrijd deze week' : 'Wedstrijden deze week';
+            elements.gamesThisWeekHeading.textContent = gamesThisWeek.length <= 1 ? 'Wedstrijd deze week' : 'Wedstrijden deze week';
+            if (gamesThisWeek.length > 0) {   
+                elements.gamesNone.textContent = '';             
                 renderGamesTable(gamesThisWeek);
             } else {
-                elements.gamesThisWeekHeading.textContent = 'Geen';
+                elements.gamesNone.textContent = 'Geen';
                 elements.gamesBody.innerHTML = '';
             }
         }
