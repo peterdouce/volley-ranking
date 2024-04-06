@@ -6,9 +6,9 @@
 }
 
 .center-content {
-    width: 800px;
-    max-width: 800px;
-    height: 700px;
+    width: 90%;
+    max-width: 90%;
+    height: 90%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -17,7 +17,7 @@
     background-color: lightgray;
 }
 
-.teaminfo {
+.team-info {
     float: right;
     position: relative; 
     font-weight: bold;
