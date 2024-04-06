@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 elements.rankingCard.style.visibility = 'visible';
                 const rankingHTML = generateRankingHTML(team.ranking);
                 elements.ranking.innerHTML = `
-                    <table>
+                    <table class='table'>
                         <thead>
                             <tr>
                                 <th>#</th>
