@@ -1,94 +1,104 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const teamNameElem = document.getElementById('teamName');
-    const teamInfoElem = document.getElementById('teamInfo');
-    const teamPictureElem = document.getElementById('teamPicture');
-    const rankingElem = document.getElementById('ranking');
-    const gamesThisWeekHeadingElem = document.getElementById('gamesThisWeekHeading');
-    const gamesBodyElem = document.getElementById('gamesBody');
+    const elements = {
+        teamName: document.getElementById('teamName'),
+        teamInfo: document.getElementById('teamInfo'),
+        teamPicture: document.getElementById('teamPicture'),
+        ranking: document.getElementById('ranking'),
+        gamesThisWeekHeading: document.getElementById('gamesThisWeekHeading'),
+        gamesBody: document.getElementById('gamesBody')
+    };
 
-    // Function to fetch JSON data
     function fetchDataAndRender() {
-        fetch('teams.json')
-            .then(response => response.json())
-            .then(data => {
-                renderContent(data);
-            })
-            .catch(error => console.error('Error fetching JSON:', error));
+        fetchTeams()
+            .then(data => renderContent(data))
+            .catch(error => console.error('Error fetching data:', error));
     }
 
-    // Function to render content
+    async function fetchTeams() {
+        const response = await fetch('teams.json');
+        if (!response.ok) {
+            throw new Error('Failed to fetch data');
+        }
+        return response.json();
+    }
+
     function renderContent(data) {
-        // Initialize index
         let index = 0;
 
-        // Function to update content
         function updateContent(index) {
             const team = data[index];
+            renderTeamInfo(team);
+            renderRanking(team);
+            renderGamesThisWeek(team);
+        }
 
-            // Render team name and info
-            teamNameElem.textContent = `${team.name}`;
-            teamInfoElem.innerHTML = `${team.series}`;
-
-            // Render team picture
+        function renderTeamInfo(team) {
+            elements.teamName.textContent = team.name;
+            elements.teamInfo.innerHTML = team.series;
             if (team.picture) {
-                teamPictureElem.innerHTML = `<img src="${team.picture}" alt="${team.name}" class="img">`;
-                rankingElem.innerHTML = '';
-
-                // Hide ranking for the first 5 seconds if there is a picture
-                setTimeout(() => {
-                    teamPictureElem.innerHTML = '';
-                    renderRanking(team);
-                }, 5000);
+                renderTeamPicture(team.picture);
+                elements.ranking.innerHTML = '';                
             } else {
-                renderRanking(team);
-            }
-
-            // Render gamesThisWeek
-            const gamesThisWeek = team.gamesThisWeek;
-            if (gamesThisWeek.length > 0) {
-                gamesThisWeekHeadingElem.textContent = gamesThisWeek.length === 1 ? 'Wedstrijd deze week' : 'Wedstrijden deze week';
-                renderGamesTable(gamesThisWeek);
-            } else {
-                gamesThisWeekHeadingElem.textContent = 'Geen';
-                gamesBodyElem.innerHTML = '';
+                elements.teamPicture.innerHTML = '';
             }
         }
 
-        // Function to render ranking
+        function renderTeamPicture(pictureUrl) {
+            elements.teamPicture.innerHTML = `<img src="${pictureUrl}" alt="${team.name}">`;
+            setTimeout(() => {
+                elements.teamPicture.innerHTML = '';
+                renderRanking(team);
+            }, 5000);
+        }
+
         function renderRanking(team) {
             if (team.showRanking) {
-                const ranking = team.ranking.map((team, index) => `
-                    <tr class="${index % 2 === 0 ? 'even-row' : ''} ${team.team.includes('Stevoort') ? 'roveka' : ''}">
-                        <td>${team.rank}</td>
-                        <td>${team.team}</td>
-                        <td>${team.pts}</td>
-                        <td>${team.games}</td>
-                    </tr>
-                `).join('');
-                rankingElem.innerHTML = `
+                const rankingHTML = generateRankingHTML(team.ranking);
+                elements.ranking.innerHTML = `
                     <h3>Ranking:</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>#</th>
                                 <th>Ploeg</th>
                                 <th>Ptn</th>
                                 <th># Wed</th>
                             </tr>
                         </thead>
                         <tbody>
-                            ${ranking}
+                            ${rankingHTML}
                         </tbody>
                     </table>
                 `;
             } else {
-                rankingElem.innerHTML = '';
+                elements.ranking.innerHTML = '';
             }
         }
 
-        // Function to render gamesThisWeek table
-        function renderGamesTable(gamesThisWeek) {
-            const gamesTable = gamesThisWeek.map(game => `
+        function generateRankingHTML(rankingData) {
+            return rankingData.map((team, index) => `
+                <tr class="${index % 2 === 0 && !team.team.includes('Stevoort') ? 'even-row' : ''} ${team.team.includes('Stevoort') ? 'roveka' : ''}">
+                    <td>${team.rank}</td>
+                    <td>${team.team}</td>
+                    <td>${team.pts}</td>
+                    <td>${team.games}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderGamesThisWeek(team) {
+            const gamesThisWeek = team.gamesThisWeek;
+            if (gamesThisWeek.length > 0) {
+                elements.gamesThisWeekHeading.textContent = gamesThisWeek.length === 1 ? 'Wedstrijd deze week' : 'Wedstrijden deze week';
+                renderGamesTable(gamesThisWeek);
+            } else {
+                elements.gamesThisWeekHeading.textContent = 'Geen';
+                elements.gamesBody.innerHTML = '';
+            }
+        }
+
+        function renderGamesTable(gamesData) {
+            const gamesTableHTML = gamesData.map(game => `
                 <tr>
                     <td>${game.weekday}</td>
                     <td>${game.date}</td>
@@ -98,18 +108,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     <td>${game.result}</td>
                 </tr>
             `).join('');
-            gamesBodyElem.innerHTML = gamesTable;
+            elements.gamesBody.innerHTML = `
+                <table id="gamesTable">
+                    <thead>
+                        <tr>
+                            <th>Dag</th>
+                            <th>Datum</th>
+                            <th>Uur</th>
+                            <th>Thuis</th>
+                            <th>Bezoekers</th>
+                            <th>Uitslag</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${gamesTableHTML}
+                    </tbody>
+                </table>
+            `;
         }
 
-        // Initial update
         updateContent(index);
 
-        // Loop over the array with a delay of 10 seconds
         const interval = setInterval(() => {
             index = (index + 1) % data.length;
             updateContent(index);
-
-            // If reached the end of data, refresh data
             if (index === 0) {
                 clearInterval(interval);
                 fetchDataAndRender();
@@ -117,6 +139,5 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 10000);
     }
 
-    // Initial fetch and render
     fetchDataAndRender();
 });
