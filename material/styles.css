@@ -2,7 +2,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    font-size: 200%;
+    font-size: 180%;
 }
 
 .container {
@@ -21,13 +21,13 @@ body {
 
 .card h2 {
     margin-top: 0;
-    font-size: 48px;
+    font-size: 44px;
     font-weight: 500;
 }
 
 .card h3 {
     margin-top: 0;
-    font-size: 40px;
+    font-size: 38px;
     font-weight: 500;
 }
 
