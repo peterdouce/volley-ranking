@@ -1,7 +1,14 @@
 document.addEventListener("DOMContentLoaded", function() {
+    const teamNameElem = document.getElementById('teamName');
+    const teamInfoElem = document.getElementById('teamInfo');
+    const teamPictureElem = document.getElementById('teamPicture');
+    const rankingElem = document.getElementById('ranking');
+    const gamesThisWeekHeadingElem = document.getElementById('gamesThisWeekHeading');
+    const gamesBodyElem = document.getElementById('gamesBody');
+
     // Function to fetch JSON data
     function fetchDataAndRender() {
-        fetch('teams.json')
+        fetch('data.json')
             .then(response => response.json())
             .then(data => {
                 renderContent(data);
@@ -11,111 +18,86 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Function to render content
     function renderContent(data) {
-        // Get the content container
-        const contentContainer = document.getElementById('content');
+        // Initialize index
+        let index = 0;
 
         // Function to update content
         function updateContent(index) {
-            // Clear existing content
-            contentContainer.innerHTML = '';
-
-            // Create and append content
             const team = data[index];
-            const content = document.createElement('div');
-            content.innerHTML = `
-                <h2>Team ${team.sequence}</h2>
-                <p>Name: ${team.name}</p>
-                <p>Series: ${team.series}</p>
-            `;
 
-            // Check if the team has a picture
+            // Render team name and info
+            teamNameElem.textContent = `Team ${team.sequence}`;
+            teamInfoElem.innerHTML = `Name: ${team.name}<br>Series: ${team.series}`;
+
+            // Render team picture
             if (team.picture) {
-                const picture = document.createElement('img');
-                picture.src = team.picture;
-                picture.alt = team.name;
-                content.appendChild(picture);
+                teamPictureElem.innerHTML = `<img src="${team.picture}" alt="${team.name}">`;
 
-                // Show picture for the first 5 seconds
+                // Hide ranking for the first 5 seconds if there is a picture
                 setTimeout(() => {
-                    content.removeChild(picture);
-                    // Check if the team should display ranking
-                    if (team.showRanking) {
-                        const ranking = document.createElement('div');
-                        ranking.innerHTML = '<h3>Ranking:</h3>';
-                        ranking.appendChild(renderRankingTable(team.ranking));
-                        content.appendChild(ranking);
-                    }
+                    renderRanking(team);
                 }, 5000);
             } else {
-                // If no picture, show ranking directly
-                if (team.showRanking) {
-                    const ranking = document.createElement('div');
-                    ranking.innerHTML = '<h3>Ranking:</h3>';
-                    ranking.appendChild(renderRankingTable(team.ranking));
-                    content.appendChild(ranking);
-                }
+                renderRanking(team);
             }
 
-            // Render gamesThisWeek in a table
-            const gamesTable = document.createElement('table');
-            gamesTable.innerHTML = `
-                <thead>
-                    <tr>
-                        <th>Dag</th>
-                        <th>Datum</th>
-                        <th>Uur</th>
-                        <th>Thuis</th>
-                        <th>Bezoekers</th>
-                        <th>Uitslag</th>
+            // Render gamesThisWeek
+            const gamesThisWeek = team.gamesThisWeek;
+            if (gamesThisWeek.length > 0) {
+                gamesThisWeekHeadingElem.textContent = gamesThisWeek.length === 1 ? 'Wedstrijd deze week' : 'Wedstrijden deze week';
+                renderGamesTable(gamesThisWeek);
+            } else {
+                gamesThisWeekHeadingElem.textContent = 'Geen';
+                gamesBodyElem.innerHTML = '';
+            }
+        }
+
+        // Function to render ranking
+        function renderRanking(team) {
+            if (team.showRanking) {
+                const ranking = team.ranking.map((team, index) => `
+                    <tr class="${team.team.includes('Stevoort') ? 'roveka' : ''}">
+                        <td>${index + 1}</td>
+                        <td>${team.team}</td>
+                        <td>${team.pts}</td>
+                        <td>${team.games}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    ${team.gamesThisWeek.map(game => `
-                        <tr>
-                            <td>${game.weekday}</td>
-                            <td>${game.date}</td>
-                            <td>${game.time}</td>
-                            <td ${game.home.includes('Stevoort') ? 'class="roveka"' : ''}>${game.home}</td>
-                            <td ${game.away.includes('Stevoort') ? 'class="roveka"' : ''}>${game.away}</td>
-                            <td>${game.result}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            `;
-            content.appendChild(gamesTable);
-
-            contentContainer.appendChild(content);
+                `).join('');
+                rankingElem.innerHTML = `
+                    <h3>Ranking:</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ploeg</th>
+                                <th>Ptn</th>
+                                <th># Wed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${ranking}
+                        </tbody>
+                    </table>
+                `;
+            } else {
+                rankingElem.innerHTML = '';
+            }
         }
 
-        // Function to render ranking table
-        function renderRankingTable(ranking) {
-            const table = document.createElement('table');
-            const headerRow = table.insertRow();
-            const headers = ["#", "Ploeg", "Ptn", "# Wed"];
-            headers.forEach(header => {
-                const th = document.createElement('th');
-                th.textContent = header;
-                headerRow.appendChild(th);
-            });
-            ranking.forEach((team, index) => {
-                const row = table.insertRow();
-                if (team.team.includes('Stevoort')) {
-                    row.classList.add('roveka');
-                }
-                const cellNumber = row.insertCell(0);
-                cellNumber.textContent = index + 1;
-                const cellTeam = row.insertCell(1);
-                cellTeam.textContent = team.team;
-                const cellPoints = row.insertCell(2);
-                cellPoints.textContent = team.pts;
-                const cellGames = row.insertCell(3);
-                cellGames.textContent = team.games;
-            });
-            return table;
+        // Function to render gamesThisWeek table
+        function renderGamesTable(gamesThisWeek) {
+            const gamesTable = gamesThisWeek.map(game => `
+                <tr>
+                    <td>${game.weekday}</td>
+                    <td>${game.date}</td>
+                    <td>${game.time}</td>
+                    <td ${game.home.includes('Stevoort') ? 'class="roveka"' : ''}>${game.home}</td>
+                    <td ${game.away.includes('Stevoort') ? 'class="roveka"' : ''}>${game.away}</td>
+                    <td>${game.result}</td>
+                </tr>
+            `).join('');
+            gamesBodyElem.innerHTML = gamesTable;
         }
-
-        // Initialize index
-        let index = 0;
 
         // Initial update
         updateContent(index);
