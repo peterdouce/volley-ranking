@@ -46,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function renderTeamPicture(team) {
             elements.teamPicture.innerHTML = `<img src="${team.picture}" alt="${team.name}">`;
-            elements.rankingCard.style.display = 'none';
             elements.rankingCard.style.visibility = 'hidden';
             setTimeout(() => {
                 elements.teamPicture.innerHTML = '';
@@ -56,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function renderRanking(team) {
             if (team.showRanking) {
-                elements.rankingCard.style.display = 'block';
                 elements.rankingCard.style.visibility = 'visible';
                 const rankingHTML = generateRankingHTML(team.ranking);
                 elements.ranking.innerHTML = `
@@ -75,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     </table>
                 `;
             } else {
+                elements.rankingCard.style.visibility = 'hidden';
                 elements.ranking.innerHTML = '';
             }
         }
