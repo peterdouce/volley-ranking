@@ -2,6 +2,7 @@
 .roveka {
     background-color: black;
     color: yellow;
+    font-weight: bold;
 }
 
 .center-content {
@@ -12,6 +13,8 @@
     margin-right: auto;
 }
 
-.font-weight-bold {
+#teaminfo {
+    float: right;
+    position: relative; 
     font-weight: bold;
 }

@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 // Hide ranking for the first 5 seconds if there is a picture
                 setTimeout(() => {
+                    teamPictureElem.innerHTML = '';
                     renderRanking(team);
                 }, 5000);
             } else {
