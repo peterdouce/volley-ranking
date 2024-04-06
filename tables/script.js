@@ -36,15 +36,15 @@ document.addEventListener("DOMContentLoaded", function() {
             elements.teamName.textContent = team.name;
             elements.teamInfo.innerHTML = team.series;
             if (team.picture) {
-                renderTeamPicture(team.picture);
+                renderTeamPicture(team);
                 elements.ranking.innerHTML = '';                
             } else {
                 elements.teamPicture.innerHTML = '';
             }
         }
 
-        function renderTeamPicture(pictureUrl) {
-            elements.teamPicture.innerHTML = `<img src="${pictureUrl}" alt="${team.name}">`;
+        function renderTeamPicture(team) {
+            elements.teamPicture.innerHTML = `<img src="${team.picture}" alt="${team.name}">`;
             setTimeout(() => {
                 elements.teamPicture.innerHTML = '';
                 renderRanking(team);
@@ -76,12 +76,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         function generateRankingHTML(rankingData) {
-            return rankingData.map((team, index) => `
-                <tr class="${index % 2 === 0 && !team.team.includes('Stevoort') ? 'even-row' : ''} ${team.team.includes('Stevoort') ? 'roveka' : ''}">
-                    <td>${team.rank}</td>
-                    <td>${team.team}</td>
-                    <td>${team.pts}</td>
-                    <td>${team.games}</td>
+            return rankingData.map((ranking, index) => `
+                <tr class="${index % 2 === 0 && !ranking.team.includes('Stevoort') ? 'even-row' : ''} ${ranking.team.includes('Stevoort') ? 'roveka' : ''}">
+                    <td>${ranking.rank}</td>
+                    <td>${ranking.team}</td>
+                    <td>${ranking.pts}</td>
+                    <td>${ranking.games}</td>
                 </tr>
             `).join('');
         }
