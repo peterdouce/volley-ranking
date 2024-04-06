@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Function to fetch JSON data
     function fetchDataAndRender() {
-        fetch('data.json')
+        fetch('teams.json')
             .then(response => response.json())
             .then(data => {
                 renderContent(data);
