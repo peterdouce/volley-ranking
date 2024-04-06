@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function generateRankingHTML(rankingData) {
             return rankingData.map((team, index) => `
-                <tr class="${index % 2 === 0 && !team.team.includes('Stevoort') ? 'even-row' : ''} ${team.team.includes('Stevoort') ? 'roveka' : ''}">
+                <tr class="${team.team.includes('Stevoort') ? 'roveka' : ''}">
                     <td>${team.rank}</td>
                     <td>${team.team}</td>
                     <td>${team.pts}</td>
