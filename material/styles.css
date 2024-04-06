@@ -21,13 +21,13 @@ body {
 
 .card h2 {
     margin-top: 0;
-    font-size: 24px;
+    font-size: 48px;
     font-weight: 500;
 }
 
 .card h3 {
     margin-top: 0;
-    font-size: 20px;
+    font-size: 40px;
     font-weight: 500;
 }
 
@@ -62,7 +62,7 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    height: 480px;
+    height: 640px;
 }
 
 .team-info {
