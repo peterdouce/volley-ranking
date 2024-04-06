@@ -26,12 +26,13 @@ document.addEventListener("DOMContentLoaded", function() {
             const team = data[index];
 
             // Render team name and info
-            teamNameElem.textContent = `Team ${team.sequence}`;
-            teamInfoElem.innerHTML = `Name: ${team.name}<br>Series: ${team.series}`;
+            teamNameElem.textContent = `${team.name}`;
+            teamInfoElem.innerHTML = `${team.series}`;
 
             // Render team picture
             if (team.picture) {
-                teamPictureElem.innerHTML = `<img src="${team.picture}" alt="${team.name}">`;
+                teamPictureElem.innerHTML = `<img src="${team.picture}" alt="${team.name}" class="img">`;
+                rankingElem.innerHTML = '';
 
                 // Hide ranking for the first 5 seconds if there is a picture
                 setTimeout(() => {
@@ -57,8 +58,8 @@ document.addEventListener("DOMContentLoaded", function() {
         function renderRanking(team) {
             if (team.showRanking) {
                 const ranking = team.ranking.map((team, index) => `
-                    <tr class="${team.team.includes('Stevoort') ? 'roveka' : ''}">
-                        <td>${index + 1}</td>
+                    <tr class="${index % 2 === 0 ? 'even-row' : ''} ${team.team.includes('Stevoort') ? 'roveka' : ''}">
+                        <td>${team.rank}</td>
                         <td>${team.team}</td>
                         <td>${team.pts}</td>
                         <td>${team.games}</td>
@@ -69,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <table>
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th></th>
                                 <th>Ploeg</th>
                                 <th>Ptn</th>
                                 <th># Wed</th>

@@ -13,8 +13,29 @@
     margin-right: auto;
 }
 
-#teaminfo {
+.even-row {
+    background-color: lightgray;
+}
+
+.teaminfo {
     float: right;
     position: relative; 
     font-weight: bold;
+}
+
+.win {
+    background-color: green;
+    text-align: center;
+}
+
+.loss {
+    background-color: red;
+    text-align: center;
+}
+
+.img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 380px;
 }
