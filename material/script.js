@@ -36,14 +36,14 @@ document.addEventListener("DOMContentLoaded", function() {
             elements.teamName.textContent = team.name;
             elements.teamInfo.innerHTML = team.series;
             if (team.picture) {
-                renderTeamPicture(team.picture);
+                renderTeamPicture(team);
             } else {
                 elements.teamPicture.innerHTML = '';
             }
         }
 
-        function renderTeamPicture(pictureUrl) {
-            elements.teamPicture.innerHTML = `<img src="${pictureUrl}" alt="${team.name}">`;
+        function renderTeamPicture(team) {
+            elements.teamPicture.innerHTML = `<img src="${team.picture}" alt="${team.name}">`;
             setTimeout(() => {
                 elements.teamPicture.innerHTML = '';
                 renderRanking(team);
