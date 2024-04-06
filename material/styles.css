@@ -54,10 +54,6 @@ body {
     background-color: lightgray;
 }
 
-.table tbody tr:nth-child(even) .roveka {
-    background-color: black;
-}
-
 .team-picture img {
     max-width: 100%;
     border-radius: 8px;
@@ -75,6 +71,6 @@ body {
 }
 
 .roveka {
-    background-color: black;
-    color: yellow;
+    background-color: black !important;
+    color: yellow !important;
 }
