@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
         function updateContent(index) {
             const team = data[index];
             renderTeamInfo(team);
-            renderRanking(team);
+            //renderRanking(team);
             renderGamesThisWeek(team);
         }
 
@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 renderTeamPicture(team);
             } else {
                 elements.teamPicture.innerHTML = '';
+                renderRanking(team);
             }
         }
 
