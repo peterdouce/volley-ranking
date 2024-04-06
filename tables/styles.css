@@ -17,12 +17,6 @@
     background-color: lightgray;
 }
 
-.team-info {
-    float: right;
-    position: relative; 
-    font-weight: bold;
-}
-
 .win {
     background-color: green;
     text-align: center;
@@ -33,7 +27,13 @@
     text-align: center;
 }
 
-.img {
+.team-info {
+    float: right;
+    position: relative; 
+    font-weight: bold;
+}
+
+.team-img {
     display: block;
     margin-left: auto;
     margin-right: auto;

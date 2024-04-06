@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", function() {
         teamPicture: document.getElementById('teamPicture'),
         ranking: document.getElementById('ranking'),
         gamesThisWeekHeading: document.getElementById('gamesThisWeekHeading'),
-        gamesBody: document.getElementById('gamesBody')
+        gamesBody: document.getElementById('gamesBody'),
+        gamesNone: document.getElementById('gamesNone')
     };
 
     function fetchDataAndRender() {
@@ -44,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         function renderTeamPicture(team) {
-            elements.teamPicture.innerHTML = `<img src="${team.picture}" alt="${team.name}">`;
+            elements.teamPicture.innerHTML = `<img src="${team.picture}" alt="${team.name}" class="team-img">`;
             setTimeout(() => {
                 elements.teamPicture.innerHTML = '';
                 renderRanking(team);
@@ -56,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const rankingHTML = generateRankingHTML(team.ranking);
                 elements.ranking.innerHTML = `
                     <h3>Ranking:</h3>
-                    <table>
+                    <table class="ranking-table">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -88,11 +89,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function renderGamesThisWeek(team) {
             const gamesThisWeek = team.gamesThisWeek;
+            elements.gamesThisWeekHeading.textContent = gamesThisWeek.length <= 1 ? 'Wedstrijd deze week' : 'Wedstrijden deze week';
+                
             if (gamesThisWeek.length > 0) {
-                elements.gamesThisWeekHeading.textContent = gamesThisWeek.length === 1 ? 'Wedstrijd deze week' : 'Wedstrijden deze week';
+                elements.gamesNone.textContent = '';
                 renderGamesTable(gamesThisWeek);
             } else {
-                elements.gamesThisWeekHeading.textContent = 'Geen';
+                elements.gamesNone.textContent = 'Geen';
                 elements.gamesBody.innerHTML = '';
             }
         }
