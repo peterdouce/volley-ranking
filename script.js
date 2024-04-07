@@ -48,10 +48,12 @@ document.addEventListener("DOMContentLoaded", function() {
         function renderTeamPicture(team) {
             elements.teamPicture.innerHTML = `<img src="${team.picture}" alt="${team.name}">`;
             elements.rankingCard.style.visibility = 'hidden';
-            setTimeout(() => {
-                elements.teamPicture.innerHTML = '';
-                renderRanking(team);
-            }, 5000);
+            if(team.showRanking) {
+                setTimeout(() => {
+                    elements.teamPicture.innerHTML = '';
+                    renderRanking(team);
+                }, 5000);
+            }
         }
 
         function renderRanking(team) {
