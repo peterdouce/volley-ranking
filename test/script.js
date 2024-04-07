@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <td>${game.time}</td>
                     <td ${game.home.includes('Stevoort') ? 'class="roveka"' : ''}>${game.home}</td>
                     <td ${game.away.includes('Stevoort') ? 'class="roveka"' : ''}>${game.away}</td>
-                    <td ${winOrLoss.trim() !== '' ? `class="${winOrLoss}"` : ''}></td>
+                    <td ${winOrLoss.trim() !== '' ? `class="${winOrLoss}"` : ''}>${game.result}</td>
                 </tr>
             `}).join('');
             elements.gamesBody.innerHTML = `

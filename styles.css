@@ -75,3 +75,13 @@ body {
     background-color: black !important;
     color: yellow !important;
 }
+
+.win {
+    background-color: green;
+    text-align: center;
+}
+
+.loss {
+    background-color: red;
+    text-align: center;
+}

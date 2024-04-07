@@ -103,16 +103,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         function renderGamesTable(gamesData) {
-            const gamesTableHTML = gamesData.map(game => `
+            const gamesTableHTML = gamesData.map(game => {
+                const winOrLoss = checkWinOrLoss(game);    
+            return `
                 <tr>
                     <td>${game.weekday}</td>
                     <td>${game.date}</td>
                     <td>${game.time}</td>
                     <td ${game.home.includes('Stevoort') ? 'class="roveka"' : ''}>${game.home}</td>
                     <td ${game.away.includes('Stevoort') ? 'class="roveka"' : ''}>${game.away}</td>
-                    <td>${game.result}</td>
+                    <td ${winOrLoss.trim() !== '' ? `class="${winOrLoss}"` : ''}>${game.result}</td>
                 </tr>
-            `).join('');
+            `}).join('');
             elements.gamesBody.innerHTML = `
                 <table class="table" id="gamesTable">
                     <thead>
@@ -130,6 +132,28 @@ document.addEventListener("DOMContentLoaded", function() {
                     </tbody>
                 </table>
             `;
+        }
+
+        function checkWinOrLoss(game) {
+            if(game.result.trim() !== '') {
+                if(game.home.includes('Stevoort')) {
+                  if(parseInt(game.result.split(' - ')[0]) > parseInt(game.result.split(' - ')[1])) {
+                    return 'win';
+                  }
+                  if(parseInt(game.result.split(' - ')[0]) < parseInt(game.result.split(' - ')[1])) {
+                    return 'loss';
+                  }
+                }
+                else {
+                  if(parseInt(game.result.split(' - ')[0]) < parseInt(game.result.split(' - ')[1])) {
+                    return 'win';
+                  }
+                  if(parseInt(game.result.split(' - ')[0]) > parseInt(game.result.split(' - ')[1])) {
+                    return 'loss';
+                  }
+                }
+              }
+              return ''; 
         }
 
         updateContent(index);
