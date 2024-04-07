@@ -1,0 +1,93 @@
+[
+    {
+        "sequence": 1,
+        "name": "Dames A",
+        "series": "Nationale 2 Dames B",
+        "gamesThisWeek": [
+            {
+                "weekday": "Za",
+                "date": "06/04/2024",
+                "time": "18:00",
+                "home": "Roveka Stevoort A",
+                "away": "Test",
+                "result": "3 - 0"
+            }
+        ],
+        "ranking": [
+            {
+                "rank": "01.",
+                "team": "WAREMME VOLLEY",
+                "pts": 53,
+                "games": 20
+            },
+            {
+                "rank": "02a.",
+                "team": "Stalvoc Allimex Beverlo A",
+                "pts": 44,
+                "games": 20
+            },
+            {
+                "rank": "02b.",
+                "team": "Velvoc Veltem-Beisem A",
+                "pts": 44,
+                "games": 20
+            },
+            {
+                "rank": "02c.",
+                "team": "VBC Zandhoven A",
+                "pts": 44,
+                "games": 20
+            },
+            {
+                "rank": "05a.",
+                "team": "HVC Helchteren A",
+                "pts": 39,
+                "games": 20
+            },
+            {
+                "rank": "05b.",
+                "team": "Jeval Alken A",
+                "pts": 39,
+                "games": 19
+            },
+            {
+                "rank": "07.",
+                "team": "Volley Haasrode Leuven B",
+                "pts": 27,
+                "games": 20
+            },
+            {
+                "rank": "08.",
+                "team": "VC Chaumont ",
+                "pts": 21,
+                "games": 20
+            },
+            {
+                "rank": "09.",
+                "team": "VC GEMBLOUX",
+                "pts": 17,
+                "games": 19
+            },
+            {
+                "rank": "10.",
+                "team": "Volley Heist Dames A",
+                "pts": 16,
+                "games": 18
+            },
+            {
+                "rank": "11.",
+                "team": "Koninklijke VC Sparvoc Lanaken-Briegden",
+                "pts": 9,
+                "games": 20
+            },
+            {
+                "rank": "12.",
+                "team": "Roveka Stevoort A",
+                "pts": 1,
+                "games": 20
+            }
+        ],
+        "showRanking": true,
+        "picture": "https://v4.sportadministratie.be/UPLOAD/ROVEKASTEVOORT/PLOEGEN/foto-5e78c458a565f7cf34477d3136a62cad.png"
+    }
+]

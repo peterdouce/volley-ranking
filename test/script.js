@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
         ranking: document.getElementById('ranking'),
         gamesThisWeekHeading: document.getElementById('gamesThisWeekHeading'),
         gamesBody: document.getElementById('gamesBody'),
-        gamesNone: document.getElementById('gamesNone')
+        gamesNone: document.getElementById('gamesNone'),
+        rankingCard: document.getElementById('rankingCard')
     };
 
     function fetchDataAndRender() {
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
         function updateContent(index) {
             const team = data[index];
             renderTeamInfo(team);
-            renderRanking(team);
+            //renderRanking(team);
             renderGamesThisWeek(team);
         }
 
@@ -38,14 +39,15 @@ document.addEventListener("DOMContentLoaded", function() {
             elements.teamInfo.innerHTML = team.series;
             if (team.picture) {
                 renderTeamPicture(team);
-                elements.ranking.innerHTML = '';                
             } else {
                 elements.teamPicture.innerHTML = '';
+                renderRanking(team);
             }
         }
 
         function renderTeamPicture(team) {
-            elements.teamPicture.innerHTML = `<img src="${team.picture}" alt="${team.name}" class="team-img">`;
+            elements.teamPicture.innerHTML = `<img src="${team.picture}" alt="${team.name}">`;
+            elements.rankingCard.style.visibility = 'hidden';
             setTimeout(() => {
                 elements.teamPicture.innerHTML = '';
                 renderRanking(team);
@@ -54,10 +56,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function renderRanking(team) {
             if (team.showRanking) {
+                elements.rankingCard.style.visibility = 'visible';
                 const rankingHTML = generateRankingHTML(team.ranking);
                 elements.ranking.innerHTML = `
-                    <h3>Ranking:</h3>
-                    <table class="ranking-table">
+                    <table class='table'>
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -72,17 +74,18 @@ document.addEventListener("DOMContentLoaded", function() {
                     </table>
                 `;
             } else {
+                elements.rankingCard.style.visibility = 'hidden';
                 elements.ranking.innerHTML = '';
             }
         }
 
         function generateRankingHTML(rankingData) {
-            return rankingData.map((ranking, index) => `
-                <tr class="${index % 2 === 0 && !ranking.team.includes('Stevoort') ? 'even-row' : ''} ${ranking.team.includes('Stevoort') ? 'roveka' : ''}">
-                    <td>${ranking.rank}</td>
-                    <td>${ranking.team}</td>
-                    <td>${ranking.pts}</td>
-                    <td>${ranking.games}</td>
+            return rankingData.map((team, index) => `
+                <tr class="${team.team.includes('Stevoort') ? 'roveka' : ''}">
+                    <td>${team.rank}</td>
+                    <td>${team.team}</td>
+                    <td>${team.pts}</td>
+                    <td>${team.games}</td>
                 </tr>
             `).join('');
         }
@@ -90,9 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
         function renderGamesThisWeek(team) {
             const gamesThisWeek = team.gamesThisWeek;
             elements.gamesThisWeekHeading.textContent = gamesThisWeek.length <= 1 ? 'Wedstrijd deze week' : 'Wedstrijden deze week';
-                
-            if (gamesThisWeek.length > 0) {
-                elements.gamesNone.textContent = '';
+            if (gamesThisWeek.length > 0) {   
+                elements.gamesNone.textContent = '';             
                 renderGamesTable(gamesThisWeek);
             } else {
                 elements.gamesNone.textContent = 'Geen';
@@ -101,18 +103,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         function renderGamesTable(gamesData) {
-            const gamesTableHTML = gamesData.map(game => `
+            const gamesTableHTML = gamesData.map(game => {
+                const winOrLoss = checkWinOrLoss(game);    
+            return `
                 <tr>
                     <td>${game.weekday}</td>
                     <td>${game.date}</td>
                     <td>${game.time}</td>
                     <td ${game.home.includes('Stevoort') ? 'class="roveka"' : ''}>${game.home}</td>
                     <td ${game.away.includes('Stevoort') ? 'class="roveka"' : ''}>${game.away}</td>
-                    <td>${game.result}</td>
+                    <td ${winOrLoss.trim() !== '' ? `class="${winOrLoss}"` : ''}></td>
                 </tr>
-            `).join('');
+            `}).join('');
             elements.gamesBody.innerHTML = `
-                <table id="gamesTable">
+                <table class="table" id="gamesTable">
                     <thead>
                         <tr>
                             <th>Dag</th>
@@ -128,6 +132,28 @@ document.addEventListener("DOMContentLoaded", function() {
                     </tbody>
                 </table>
             `;
+        }
+
+        function checkWinOrLoss(game) {
+            if(game.result.trim() !== '') {
+                if(game.home.includes('Stevoort')) {
+                  if(parseInt(game.result.split(' - ')[0]) > parseInt(game.result.split(' - ')[1])) {
+                    return 'win';
+                  }
+                  if(parseInt(game.result.split(' - ')[0]) < parseInt(game.result.split(' - ')[1])) {
+                    return 'loss';
+                  }
+                }
+                else {
+                  if(parseInt(game.result.split(' - ')[0]) < parseInt(game.result.split(' - ')[1])) {
+                    return 'win';
+                  }
+                  if(parseInt(game.result.split(' - ')[0]) > parseInt(game.result.split(' - ')[1])) {
+                    return 'loss';
+                  }
+                }
+              }
+              return ''; 
         }
 
         updateContent(index);
