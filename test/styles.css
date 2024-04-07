@@ -77,11 +77,11 @@ body {
 }
 
 .win {
-    background-color: green;
-    text-align: center;
+    background-color: green !important;
+    text-align: center !important;
 }
 
 .loss {
-    background-color: red;
-    text-align: center;
+    background-color: red !important;
+    text-align: center !important;
 }
