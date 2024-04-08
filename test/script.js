@@ -48,15 +48,19 @@ document.addEventListener("DOMContentLoaded", function() {
         function renderTeamPicture(team) {
             elements.teamPicture.innerHTML = `<img src="${team.picture}" alt="${team.name}">`;
             elements.rankingCard.style.visibility = 'hidden';
-            setTimeout(() => {
-                elements.teamPicture.innerHTML = '';
-                renderRanking(team);
-            }, 5000);
+            elements.rankingCard.style.display = 'none';
+            if(team.showRanking) {
+                setTimeout(() => {
+                    elements.teamPicture.innerHTML = '';
+                    renderRanking(team);
+                }, 5000);
+            }
         }
 
         function renderRanking(team) {
             if (team.showRanking) {
                 elements.rankingCard.style.visibility = 'visible';
+                elements.rankingCard.style.display = 'block';
                 const rankingHTML = generateRankingHTML(team.ranking);
                 elements.ranking.innerHTML = `
                     <table class='table'>
