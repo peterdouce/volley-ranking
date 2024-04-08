@@ -5,6 +5,12 @@ body {
     font-size: 175%;
 }
 
+.left {
+    max-width: 200px;
+    float: left;
+    position: relative;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
