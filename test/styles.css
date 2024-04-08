@@ -6,10 +6,19 @@ body {
 }
 
 .left {
-    max-width: 200px;
+    width: 200px;
     float: left;
     position: relative;
-    align-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.right {
+    width: 200px;
+    float: right;
+    position: relative;
+    text-align: center;
+    padding: 20px;
 }
 
 .container {
