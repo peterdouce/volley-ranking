@@ -21,15 +21,15 @@ body {
 
 .card h2 {
     margin-top: 0;
-    margin-bottom: 24px;
-    font-size: 42px;
+    margin-bottom: 20px;
+    font-size: 40px;
     font-weight: 500;
 }
 
 .card h3 {
     margin-top: 0;
-    margin-bottom: 24px;
-    font-size: 36px;
+    margin-bottom: 20px;
+    font-size: 34px;
     font-weight: 500;
 }
 
@@ -70,7 +70,8 @@ body {
 .team-info {
     float: right;
     position: relative; 
-    font-weight: bold;
+    font-size: 26px;
+    font-weight: 500;
 }
 
 .roveka {
