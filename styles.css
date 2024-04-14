@@ -5,6 +5,22 @@ body {
     font-size: 175%;
 }
 
+.left {
+    width: 220px;
+    float: left;
+    position: relative;
+    text-align: center;
+    padding: 10px;
+}
+
+.right {
+    width: 220px;
+    float: right;
+    position: relative;
+    text-align: center;
+    padding: 10px;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
