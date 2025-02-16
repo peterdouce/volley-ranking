@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 clearInterval(interval);
                 fetchDataAndRender();
             }
-        }, 10000);
+        }, 15000);
     }
 
     fetchDataAndRender();
