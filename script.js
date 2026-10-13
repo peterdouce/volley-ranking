@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function generateRankingHTML(rankingData) {
             return rankingData.map((team, index) => `
-                <tr class="${team.team.includes('Stevoort') ? 'roveka' : ''}">
+                <tr class="${team.team.includes('Stevoort') || team.team.includes('RoVeKa') ? 'roveka' : ''}">
                     <td>${team.rank}</td>
                     <td>${team.team}</td>
                     <td>${team.pts}</td>
@@ -112,8 +112,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     <td>${game.weekday}</td>
                     <td>${game.date}</td>
                     <td>${game.time}</td>
-                    <td ${game.home.includes('Stevoort') ? 'class="roveka"' : ''}>${game.home}</td>
-                    <td ${game.away.includes('Stevoort') ? 'class="roveka"' : ''}>${game.away}</td>
+                    <td ${game.home.includes('Stevoort') || game.home.includes('RoVeKa') ? 'class="roveka"' : ''}>${game.home}</td>
+                    <td ${game.away.includes('Stevoort') || game.away.includes('RoVeKa') ? 'class="roveka"' : ''}>${game.away}</td>
                     <td ${winOrLoss.trim() !== '' ? `class="${winOrLoss}"` : ''}>${game.result}</td>
                 </tr>
             `}).join('');
@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function checkWinOrLoss(game) {
             if(game.result.trim() !== '') {
-                if(game.home.includes('Stevoort')) {
+                if(game.home.includes('Stevoort') || game.home.includes('RoVeKa')) {
                   if(parseInt(game.result.split(' - ')[0]) > parseInt(game.result.split(' - ')[1])) {
                     return 'win';
                   }
